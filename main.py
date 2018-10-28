@@ -1,6 +1,6 @@
 import json
 from pprint import pprint
-from random import random, uniform
+from random import random, uniform, choice
 from math import floor
 #random.seed(10)
 
@@ -9,6 +9,10 @@ from math import floor
 
 def constrain(val, min_val, max_val):
     return min(max_val, max(min_val, val))
+
+def normalize(val, min_val, max_val):
+	return (val - min_val)/(max_val-min_val)
+
 class Tile:
 	def __init__(self, x, y):
 		self.x = x
@@ -28,6 +32,7 @@ class Level:
 		self.dif = 2 
 		self.dif_max = 10 #max difficulty 10
 		self.room_count = 0
+		self.generated_rooms = []
 
 	def get_neighbors(self,x,y):
 		neighbors = 0
@@ -40,12 +45,16 @@ class Level:
 	def generate_room(self, x, y):
 		available_positions = []
 		n = self.get_neighbors(x,y)
-		#print(n)
+		print(f'neighbors: {n}')
+		generated = False
+		while not generated:
+			pass
+
+		self.generated_rooms.append((x, y))
 		self.room_count += 1
 
 
 	def generate(self):
-		
 		starting_limit = 10
 		population_percentage = 0.6 # max 1
 
@@ -56,11 +65,18 @@ class Level:
 
 		start_x = self.width // 2
 		start_y = self.height // 2
-		print(start_x, start_y)
+		#print(start_x, start_y)
 		while self.room_count < room_limit:
 
+			if self.generated_rooms:
+				room = choice(self.generated_rooms)
+				self.generate_room(room[0], room[1])
+			else:
+				self.generate_room(start_x, start_y)
 
-			self.generate_room(start_x, start_y)
+			
+			#pprint(self.grid)
+			#print(self.generated_rooms)
 
 
 
@@ -69,6 +85,6 @@ class Level:
 
 
 if __name__ == "__main__":
-	l1 = Level((9, 16))
+	l1 = Level((4, 5))
 	l1.generate()
 
