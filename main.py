@@ -1,6 +1,6 @@
 import json
 from pprint import pprint
-from random import random, uniform, choice
+from random import random, uniform, choice, randint
 from math import floor
 #random.seed(10)
 
@@ -47,8 +47,17 @@ class Level:
 		n = self.get_neighbors(x,y)
 		print(f'neighbors: {n}')
 		generated = False
-		while not generated:
-			pass
+		iterations = 0
+		while not generated and iterations < 500:
+			side = floor(randint(1,4))
+
+			if side == 1:
+				pass
+				
+
+			#if its stuck this breaks the loop
+			iterations += 1
+			
 
 		self.generated_rooms.append((x, y))
 		self.room_count += 1
